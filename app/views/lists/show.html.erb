@@ -1,0 +1,41 @@
+<h2><%= @list.name %></h2>
+<p><%= @list.reason %></p>
+
+<ul>
+<% @list.steps.each do |step| %>
+  <li>
+    <%= step.description %> | <%= step.complete %>
+  </li>  
+  <li> 
+    <%= button_to "Complete", complete_list_step_path(@list.id, step.id) %>
+  </li>
+<% end %>
+</ul>
+
+<h4>Add Step</h4>
+<p>Baby steps will help you complete your list.</p>
+ 
+<%= form_for [@list, @list.steps.new]  do |form| %>
+  <%= form.text_field :description %>
+  <br>
+  <%= form.submit %>
+<% end %>
+
+<h4>Steps I Need to Take</h4>
+<ul>
+  <% @list.steps.incomplete.each do |step| %>
+    <li>
+      <%= step.description %> | <%= step.complete %>
+
+      <%= button_to "Complete", complete_list_step_path(@list.id, step.id) %>
+    </li>
+  <% end %>
+</ul>
+ 
+ 
+<h4>Steps I Completed!</h4>
+<ul>
+  <% @list.steps.complete.each do |step| %>
+    <li><%= step.description %>
+  <% end %>
+</ul>
